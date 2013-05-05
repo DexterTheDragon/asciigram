@@ -18,9 +18,17 @@ class TestAsciigramGrid < MiniTest::Unit::TestCase
     assert grid
   end
 
+  def test_grid_has_width_reader
+    assert_equal @grid.width, 5
+  end
+
+  def test_grid_has_height_reader
+    assert_equal @grid.height, 5
+  end
+
   def test_initialize_sets_width_and_height
-    assert_equal @grid.instance_variable_get(:@width), 5
-    assert_equal @grid.instance_variable_get(:@height), 5
+    assert_equal @grid.width, 5
+    assert_equal @grid.height, 5
   end
 
   def test_initialize_creates_a_multi_array
@@ -28,9 +36,9 @@ class TestAsciigramGrid < MiniTest::Unit::TestCase
   end
 
   def test_print_at_position
-    position = Asciigram::Position.new 5, 5
-    position.row = 1
-    position.col = 3
+    position = MiniTest::Mock.new
+    position.expect(:row, 1)
+    position.expect(:col, 3)
 
     @grid.print_at position
     assert_equal @grid.instance_variable_get(:@grid)[1][3], 'X'

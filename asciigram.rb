@@ -4,11 +4,11 @@ class Asciigram
   class Position
     attr_reader :row, :col
 
-    def initialize(width, height)
+    def initialize(grid)
       @row = 0
       @col = 0
-      @width = width
-      @height = height
+      @width = grid.width
+      @height = grid.height
     end
 
     def row= value
@@ -23,6 +23,8 @@ class Asciigram
   end
 
   class Grid
+    attr_reader :width, :height
+
     def initialize(width, height)
       @width = width.to_i
       @height = height.to_i
@@ -42,28 +44,24 @@ class Asciigram
     end
   end
 
-  attr_reader :position
-
   def initialize(width, height)
-    width = width.to_i
-    height = height.to_i
     @grid = Grid.new width, height
-    @position = Position.new width, height
+    @position = Position.new @grid
   end
 
   def run(steps)
     steps.to_s.each_char do |command|
       case command
       when 'P'
-        @grid.print_at position
+        @grid.print_at @position
       when 'N'
-        position.row -= 1
+        @position.row -= 1
       when 'E'
-        position.col += 1
+        @position.col += 1
       when 'S'
-        position.row += 1
+        @position.row += 1
       when 'W'
-        position.col -= 1
+        @position.col -= 1
       end
     end
 

@@ -6,11 +6,17 @@ require 'asciigram'
 
 class TestAsciigramPosition < MiniTest::Unit::TestCase
   def setup
-    @position = Asciigram::Position.new 4, 4
+    grid = MiniTest::Mock.new
+    grid.expect(:width, 4)
+    grid.expect(:height, 4)
+    @position = Asciigram::Position.new grid
   end
 
   def test_initialize_takes_the_grid_width_height
-    position = Asciigram::Position.new 5, 5
+    grid = MiniTest::Mock.new
+    grid.expect(:width, 4)
+    grid.expect(:height, 4)
+    position = Asciigram::Position.new grid
     assert position
   end
 
