@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'minitest/pride'
 
 $: << File.expand_path("../../", __FILE__)
 require 'asciigram'
@@ -15,9 +16,9 @@ class TestAsciigram < MiniTest::Unit::TestCase
     assert_equal expected, result
   end
 
-  def test_command_invocation
-    output = `./asciigram.rb 4 4 PESPESPESPNNNPWSPWSPWSP`.chomp
-    expected = "XOOX\nOXXO\nOXXO\nXOOX"
-    assert_equal expected, output
+  def test_steps_converts_to_string
+    result = @asciigram.run(nil)
+    assert result
   end
+
 end

@@ -1,30 +1,34 @@
 #!/usr/bin/env ruby
 
 class Asciigram
+  Position = Struct.new(:row, :col)
+  attr_reader :position
+
   def initialize(width, height)
     @width = width.to_i
     @height = height.to_i
     @grid = Array.new(@width) { Array.new(@height) {"O"} }
-    @position = [0,0]
+    @position = Position.new
+    @position.row = @position.col = 0
   end
 
   def run(steps)
-    steps.each_char do |command|
+    steps.to_s.each_char do |command|
       case command
       when 'P'
-        @grid[@position[0]][@position[1]] = 'X'
+        @grid[position.row][position.col] = 'X'
       when 'N'
-        @position[0] -= 1
-        raise Exception if @position[0] < 0 || @position[0] >= @width
+        position.row -= 1
+        raise Exception if position.row < 0 || position.row >= @width
       when 'E'
-        @position[1] += 1
-        raise Exception if @position[1] < 0 || @position[1] >= @height
+        position.col += 1
+        raise Exception if position.col < 0 || position.col >= @height
       when 'S'
-        @position[0] += 1
-        raise Exception if @position[0] < 0 || @position[0] >= @width
+        position.row += 1
+        raise Exception if position.row < 0 || position.row >= @width
       when 'W'
-        @position[1] -= 1
-        raise Exception if @position[1] < 0 || @position[1] >= @height
+        position.col -= 1
+        raise Exception if position.col < 0 || position.col >= @height
       end
     end
 
