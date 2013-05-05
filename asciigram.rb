@@ -1,15 +1,34 @@
 #!/usr/bin/env ruby
 
 class Asciigram
-  Position = Struct.new(:row, :col)
+  class Position
+    attr_reader :row, :col
+
+    def initialize(width, height)
+      @row = 0
+      @col = 0
+      @width = width
+      @height = height
+    end
+
+    def row= value
+      raise RuntimeError, 'Movement outside of grid' if value < 0 || value >= @width
+      @row = value
+    end
+
+    def col= value
+      raise RuntimeError, 'Movement outside of grid' if value < 0 || value >= @height
+      @col = value
+    end
+  end
+
   attr_reader :position
 
   def initialize(width, height)
-    @width = width.to_i
-    @height = height.to_i
-    @grid = Array.new(@width) { Array.new(@height) {"O"} }
-    @position = Position.new
-    @position.row = @position.col = 0
+    width = width.to_i
+    height = height.to_i
+    @grid = Array.new(width) { Array.new(height) {"O"} }
+    @position = Position.new width, height
   end
 
   def run(steps)
@@ -19,16 +38,12 @@ class Asciigram
         @grid[position.row][position.col] = 'X'
       when 'N'
         position.row -= 1
-        raise Exception if position.row < 0 || position.row >= @width
       when 'E'
         position.col += 1
-        raise Exception if position.col < 0 || position.col >= @height
       when 'S'
         position.row += 1
-        raise Exception if position.row < 0 || position.row >= @width
       when 'W'
         position.col -= 1
-        raise Exception if position.col < 0 || position.col >= @height
       end
     end
 
